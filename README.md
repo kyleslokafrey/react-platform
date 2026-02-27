@@ -23,13 +23,13 @@ npm install
 
 ### 2. Configure the database
 
-This project uses [Neon](https://neon.tech) serverless Postgres exclusively. `.env.local` is already populated with the project connection strings — no changes needed for dev.
+This project uses [Neon](https://neon.tech) serverless Postgres exclusively. `.env` is committed to the repo and already contains the project connection strings — no changes needed.
 
 If you need to provision a fresh Neon project:
 
 1. Go to <https://console.neon.tech> and sign in (free tier available).
 2. Click **New Project**, name it, pick a region.
-3. Open **Connection Details**, copy all the connection variables, and paste them into `.env.local`.
+3. Open **Connection Details**, copy all the connection variables, and update `.env`.
 
 **Run migrations:**
 
@@ -83,7 +83,7 @@ Open <http://localhost:3000>. The home page queries the `messages` table and ren
 │   │   └── use-mobile.ts     # shadcn mobile hook
 │   └── lib/
 │       └── utils.ts          # cn() utility
-├── .env.local                # NOT committed to git — Neon connection strings
+├── .env                      # Neon connection strings (committed)
 └── components.json           # shadcn/ui config
 ```
 
@@ -92,8 +92,7 @@ Open <http://localhost:3000>. The home page queries the `messages` table and ren
 ## Deploy to Vercel
 
 1. **Import the repo** at <https://vercel.com/new>. Vercel auto-detects Next.js.
-2. **Add environment variables** before deploying (Project → Settings → Environment Variables). At minimum you need `DATABASE_URL`; paste all variables from `.env.local` for full compatibility.
-3. **Deploy** — push to `main` or click Deploy.
+2. **Deploy** — push to `main` or click Deploy. Environment variables are bundled in `.env` and picked up automatically during the Next.js build.
 
 > The Neon serverless HTTP driver works on Vercel serverless functions with zero extra runtime configuration.
 
