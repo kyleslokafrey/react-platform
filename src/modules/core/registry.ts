@@ -90,7 +90,21 @@ class InMemoryStorage implements ModuleStorage {
 export function createModuleContext(config: Record<string, unknown> = {}): ModuleContext {
   return {
     getConfig<T>(key: string): T | undefined {
-      return config[key] as T | undefined;
+      const directMatch = config[key];
+
+      if (directMatch !== undefined) {
+        return directMatch as T | undefined;
+      }
+
+      return key
+        .split(".")
+        .reduce<unknown>((current, segment) => {
+          if (!current || typeof current !== "object") {
+            return undefined;
+          }
+
+          return (current as Record<string, unknown>)[segment];
+        }, config) as T | undefined;
     },
     logger: defaultLogger,
     events: new InMemoryEventBus(),
