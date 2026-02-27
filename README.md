@@ -23,65 +23,26 @@ npm install
 
 ### 2. Configure the database
 
-Choose one of two options:
+This project uses [Neon](https://neon.tech) serverless Postgres exclusively. `.env.local` is already populated with the project connection strings — no changes needed for dev.
 
----
-
-#### Option A — Local Docker (recommended for dev)
-
-Requires [Docker Desktop](https://www.docker.com/products/docker-desktop/).
-
-**Start the database:**
-
-```bash
-docker compose up -d
-```
-
-This starts a `postgres:17-alpine` container on port `5432` with a persistent named volume (`pgdata`). Stop it any time with `docker compose down`.
-
-**Set the connection string:**
-
-```bash
-cp .env.local.example .env.local
-```
-
-The example already contains the correct local URL — no edits needed:
-
-```env
-DATABASE_URL=postgresql://postgres:postgres@localhost:5432/react_platform_dev
-```
-
-**Push the schema:**
-
-```bash
-npm run db:push   # creates tables in the local DB (no migration files generated)
-```
-
----
-
-#### Option B — Neon Cloud
+If you need to provision a fresh Neon project:
 
 1. Go to <https://console.neon.tech> and sign in (free tier available).
 2. Click **New Project**, name it, pick a region.
-3. Open **Connection Details** and copy the **Connection string**.
-4. Copy the example env file and fill in your connection string:
-
-```bash
-cp .env.local.example .env.local
-```
-
-```env
-DATABASE_URL=postgresql://user:password@ep-xxx.us-east-2.aws.neon.tech/neondb?sslmode=require
-```
+3. Open **Connection Details**, copy all the connection variables, and paste them into `.env.local`.
 
 **Run migrations:**
 
 ```bash
 npm run db:generate   # generates SQL into ./drizzle/
-npm run db:migrate    # applies to your Neon database
+npm run db:migrate    # applies to Neon
 ```
 
----
+Or push the schema directly (skips migration files):
+
+```bash
+npm run db:push
+```
 
 ### 3. Seed sample data (optional)
 
@@ -122,8 +83,7 @@ Open <http://localhost:3000>. The home page queries the `messages` table and ren
 │   │   └── use-mobile.ts     # shadcn mobile hook
 │   └── lib/
 │       └── utils.ts          # cn() utility
-├── .env.local                # NOT committed to git
-├── .env.local.example        # Template — copy to .env.local
+├── .env.local                # NOT committed to git — Neon connection strings
 └── components.json           # shadcn/ui config
 ```
 
@@ -131,13 +91,8 @@ Open <http://localhost:3000>. The home page queries the `messages` table and ren
 
 ## Deploy to Vercel
 
-No config changes needed — just set one environment variable.
-
 1. **Import the repo** at <https://vercel.com/new>. Vercel auto-detects Next.js.
-2. **Add the environment variable** before deploying:
-   - Key: `DATABASE_URL`
-   - Value: your Neon connection string
-   - Path: Project → Settings → Environment Variables
+2. **Add environment variables** before deploying (Project → Settings → Environment Variables). At minimum you need `DATABASE_URL`; paste all variables from `.env.local` for full compatibility.
 3. **Deploy** — push to `main` or click Deploy.
 
 > The Neon serverless HTTP driver works on Vercel serverless functions with zero extra runtime configuration.
@@ -155,14 +110,6 @@ npm run db:push       Push schema directly to local DB (no migration files)
 npm run db:seed       Insert sample data into the database
 npm run db:generate   Generate Drizzle migration SQL from schema
 npm run db:migrate    Apply pending migrations
-```
-
-**Docker Compose (local dev DB):**
-
-```
-docker compose up -d   Start the local Postgres container
-docker compose down    Stop and remove the container (data is preserved in pgdata volume)
-docker compose down -v Remove the container AND wipe all local DB data
 ```
 
 ---
