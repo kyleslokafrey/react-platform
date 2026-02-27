@@ -1,4 +1,4 @@
-import { normalizeOpenRouterError, ProviderError, TimeoutError } from "./errors";
+import { LlmProviderError, normalizeOpenRouterError, ProviderError, TimeoutError } from "./errors";
 import type {
   LlmOpenRouterRuntimeConfig,
   OpenRouterChatCompletionsRequest,
@@ -82,7 +82,7 @@ async function requestOpenRouterChatCompletionsAttempt(options: {
       throw new TimeoutError(undefined, { cause: error });
     }
 
-    if (error instanceof ProviderError) {
+    if (error instanceof LlmProviderError) {
       throw error;
     }
 
