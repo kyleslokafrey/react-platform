@@ -112,3 +112,38 @@ npm run db:migrate    Apply pending migrations
 ```
 
 ---
+
+## Module Configuration Layer
+
+The project now includes a config layer at `src/modules/config` for module-scoped settings and environment mapping.
+
+### Namespaced config shape
+
+`createConfigFromEnv()` returns:
+
+- `modules.llmOpenRouter.apiKey`
+- `modules.llmOpenRouter.baseUrl` (defaults to OpenRouter API endpoint)
+- `modules.llmOpenRouter.defaultModel`
+- `modules.llmOpenRouter.timeoutMs`
+
+### Environment mapping pattern
+
+Environment variables are mapped in one place (`src/modules/config/env.ts`) and validated in one place (`src/modules/config/validate.ts`).
+
+```bash
+MODULES_LLM_OPENROUTER_ENABLED=true
+OPENROUTER_API_KEY=...
+OPENROUTER_BASE_URL=https://openrouter.ai/api/v1
+OPENROUTER_DEFAULT_MODEL=openai/gpt-4o-mini
+OPENROUTER_TIMEOUT_MS=15000
+```
+
+Use `OPENROUTER_API_KEY` via environment variables only (e.g., `.env.local`, CI/Vercel secrets) to keep secrets out of source.
+
+### Runtime validation behavior
+
+- Fails fast if `MODULES_LLM_OPENROUTER_ENABLED=true` and no `OPENROUTER_API_KEY` is set.
+- Applies safe defaults for `baseUrl`, `defaultModel`, and `timeoutMs`.
+- Sanitizes invalid timeout values back to a safe default.
+
+---
