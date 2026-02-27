@@ -3,6 +3,7 @@ export interface GenerateTextInput {
   model?: string;
   temperature?: number;
   maxTokens?: number;
+  timeoutMs?: number;
 }
 
 export interface GenerateTextUsage {
@@ -22,6 +23,8 @@ export interface LlmOpenRouterRuntimeConfig {
   baseUrl: string;
   defaultModel: string;
   timeoutMs: number;
+  maxRetries?: number;
+  retryDelayMs?: number;
 }
 
 export interface OpenRouterChatCompletionsRequest {

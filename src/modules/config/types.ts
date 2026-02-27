@@ -4,6 +4,8 @@ export interface LlmOpenRouterModuleConfig {
   baseUrl: string;
   defaultModel: string;
   timeoutMs: number;
+  maxRetries: number;
+  retryDelayMs: number;
 }
 
 export interface AppConfig {
