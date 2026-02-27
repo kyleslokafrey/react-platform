@@ -6,7 +6,7 @@ A minimal Next.js boilerplate: App Router · TypeScript · Tailwind v4 · shadcn
 
 - **Next.js** — App Router, `src/` dir, async server components
 - **TypeScript** — strict mode
-- **Tailwind CSS v4** — dark mode via `class` strategy; `dark` class on `<html>`
+- **Tailwind CSS v4** — dark mode hardcoded via `dark` class on `<html>`
 - **shadcn/ui** — all 57 components in `src/components/ui/`
 - **Neon** — serverless Postgres (`@neondatabase/serverless`)
 - **Drizzle ORM** — type-safe queries + `drizzle-kit` for migrations
@@ -109,7 +109,10 @@ Open <http://localhost:3000>. The home page queries the `messages` table and ren
 │   ├── app/
 │   │   ├── globals.css       # Tailwind v4 + shadcn CSS variables
 │   │   ├── layout.tsx        # Root layout — dark class + TooltipProvider
-│   │   └── page.tsx          # Home — async server component + DB query
+│   │   ├── page.tsx          # Home — async server component + DB query
+│   │   ├── loading.tsx       # Automatic skeleton shown during data fetching
+│   │   ├── error.tsx         # Error boundary with reset button
+│   │   └── not-found.tsx     # 404 page
 │   ├── components/
 │   │   └── ui/               # All 57 shadcn/ui components
 │   ├── db/
