@@ -130,6 +130,10 @@ export function clearRegisteredModules(): void {
   moduleRegistry.clear();
 }
 
+export function getModulesByCapability(capability: string): ModuleManifest[] {
+  return getRegisteredModules().filter((manifest) => manifest.capabilities.includes(capability));
+}
+
 export async function loadModules(
   manifests: ModuleManifest[],
   options: LoadModulesOptions,
