@@ -87,6 +87,19 @@ Open <http://localhost:3000>. The home page queries the `messages` table and ren
 └── components.json           # shadcn/ui config
 ```
 
+
+---
+
+## Canonical Server Action CRUD Pattern
+
+For a concrete App Router server-action example (safe `FormData` parsing, typed early-return validation, Drizzle mutations, and `revalidatePath(...)`), see:
+
+- `docs/server-actions.md`
+- `src/app/demo/server-actions/page.tsx`
+- `src/app/demo/server-actions/actions.ts`
+
+Run the app and open `/demo/server-actions` to test the form + list revalidation flow.
+
 ---
 
 ## Deploy to Vercel
